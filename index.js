@@ -18,7 +18,8 @@ app.get('/', (req, res) => {
 app.get("/students", (req,res)=>{
     Student.find({}, (err, students) => {
         if(err) return console.error(err);
-        res.render('students', { students: students });
+        let count = 0;
+        res.render('students', { students, count });
     });
 
 })
