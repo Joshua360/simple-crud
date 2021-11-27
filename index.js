@@ -63,14 +63,14 @@ app.get('/students/delete/:id', (req, res) => {
 
 
 //set up monogoose connection
-mongoose.connect('mongodb://localhost/students');
+mongoose.connect('mongodb+srv://Admin:Jakopondo009@cluster0.fsblo.mongodb.net/Student-crud?retryWrites=true&w=majority');
 
 
 
+const port = process.env.PORT || 3000;
 
-
-app.listen(3000, () => {
-    console.log('Server started on port 3000');
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`);
     }
 );
 
