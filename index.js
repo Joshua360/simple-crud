@@ -1,11 +1,33 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const Student = require('./models/student');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+const studentRouter = require('./routes/students');
+const loginRouter = require('./routes/login');
+const profileRouter = require('./routes/profile');
+const coursesRouter = require('./routes/courses');
+const aboutRouter = require('./routes/about');
+const session = require('express-session');
 
+
+app.use(session( {
+    secret: 'treehouse loves you',
+    resave: true,
+    saveUninitialized: false
+  }));
+  
+  
+  //make userID available in all templates
+  app.use(function(req,res, next){
+    res.locals.currentUser = req.session.userId;
+    next();
+  })
+  
 app.set('view engine', 'pug');
 //serve static files
 app.use('/static', express.static('public'));
@@ -15,56 +37,34 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-app.get("/students", (req,res)=>{
-    Student.find({}, (err, students) => {
-        if(err) return console.error(err);
-        let count = 0;
-        res.render('students', { students, count });
+
+app.use('/profile', profileRouter);
+app.use('/login', loginRouter);
+app.use('/students', studentRouter);
+app.use('/courses', coursesRouter);
+app.use('/about', aboutRouter);
+
+// destroy session
+
+app.get('/logout', (req, res) => {
+  if(req.session){
+    req.session.destroy(function(err){
+      if(err){
+        return next(err);
+      }else{
+        return res.redirect('/');
+      }
+
     });
-
-})
-
-app.post('/students', (req, res) => {
-    const collectedData = {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        semester: req.body.semester
-
-    }
-
-
-    //insert data into database
-    Student.create(collectedData, (err, student) => {
-        if (err) {
-            res.status(400).send(err);
-        } else {
-            res.redirect('/students');
-        }
-    });
-
-   
+  }
 
 });
 
-//edit student
-app.get('/students/edit/:id', (req, res) => {
-    Student.findById(req.params.id, (err, student) => {
-        if (err) return console.error(err);
-        res.render('edit', { student: student });
-    });
-});
-
-//delete student
-app.get('/students/delete/:id', (req, res) => {
-    Student.findByIdAndRemove(req.params.id, (err, student) => {
-        if (err) return console.error(err);
-        res.redirect('/students');
-    });
-});
+const uri = process.env.ATLAS_URI;
 
 
 //set up monogoose connection
-mongoose.connect('mongodb+srv://Admin:Jakopondo009@cluster0.fsblo.mongodb.net/Student-crud?retryWrites=true&w=majority');
+ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 

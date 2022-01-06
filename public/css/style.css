@@ -9,6 +9,13 @@
     width: 50%;
 }
 
+.wrap{
+    margin: 0 auto;
+    width: 80%;
+}
+.yellow{
+    background: yellow;
+}
 form{
     padding: 20px;
     border: 1px solid #ccc;
@@ -16,14 +23,26 @@ form{
     margin-top: 20px;
 }
 
-button{
+.home{
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    width: 100%;
+    /* width: 20%; */
+}
+
+.login-btn{
+    border: none;
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 5px;
+}
+.logout{
+    background-color: red;
+    color: #fff;
+    border-radius: 5px;
 }
 
 .table-container{
@@ -34,3 +53,35 @@ button{
     margin-top: 30px;
 }
 
+h1{
+    text-align: center;
+    font-size: xx-large;
+}
+
+.form-group{
+    margin-bottom: 20px;
+}
+
+
+.intro{
+    text-align: center;
+    font-size: large;
+}
+
+body{
+    background-color: #f2f2f2;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.login{
+    margin-top: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+    .container{
+        width: 100%;
+    }
+    button,.btn{
+        width: 100%;
+    }
+}

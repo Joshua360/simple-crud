@@ -1,0 +1,25 @@
+nav.navbar.navbar-expand-lg.navbar-light.yellow
+    .container-fluid
+        a.navbar-brand(href='/') Imaginary
+        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+            ul.navbar-nav.ms-auto
+                if !currentUser
+                    li.nav-item
+                        a.nav-link(href='/') Sign Up
+                if currentUser
+                    li.nav-item
+                        a.nav-link(href='/profile') My Profile
+                li.nav-item
+                    a.nav-link(href='/courses') Our Courses
+                if currentUser
+                    li.nav-item
+                        a.nav-link(href='/students') Students
+                if !currentUser
+                    li.nav-item 
+                        a.nav-link(href='/login') 
+                            button.login-btn Login
+                else
+                    li.nav-item
+                        a.nav-link.logout(href='/logout') Logout
